@@ -1,7 +1,7 @@
 package com.pm.service;
 
+import java.time.LocalDate;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.pm.model.Placement;
 import com.pm.repository.PlacementRepository;
+import com.pm.specification.PlacementSpecification;
 
 @Service
 public class PlacementService {
@@ -36,14 +37,14 @@ public class PlacementService {
 		return repo.findAll();
 	}
 	
-	//get specific id
-	public Placement get(Long id)
-	{
-		if( checkId(id) )
-		  return null;
-		
-		return repo.findById(id).get();
-	}
+   //search
+   public ResponseEntity<List<Placement>> search(Long id,String companyName, String jobTitle,LocalDate placementDate,Long studentId)
+   {
+	   
+	  
+	   List<Placement> placements = repo.findAll(PlacementSpecification.getPlacements(id, companyName, jobTitle, placementDate, studentId));
+       return ResponseEntity.status(HttpStatus.OK).body(placements);
+   }
 	
 	//update
 	public ResponseEntity<String> update(Placement placement)
@@ -65,15 +66,13 @@ public class PlacementService {
 		if( placement.getPlacementDate() == null )
 		  placement.setPlacementDate(placementDB.getPlacementDate());
 	    
-		if( placement.getStudentId() == null )
+		if(placement.getStudentId() == null )
 		  placement.setStudentId(placementDB.getStudentId());
 		
-	
-			
 		repo.save(placement);
 		
 		
-		return ResponseEntity.ok(placement.toString());
+		return ResponseEntity.ok("Updated Successfully!");
 		
 		
 	}

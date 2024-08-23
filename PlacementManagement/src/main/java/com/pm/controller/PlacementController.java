@@ -1,6 +1,6 @@
 package com.pm.controller;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import com.pm.service.PlacementService;
 
 
 @RestController
-@RequestMapping("/placement")
+@RequestMapping("/api/placement")
 public class PlacementController {
 	
 	@Autowired
@@ -34,17 +34,24 @@ public class PlacementController {
 	
 	//Read Operation
 	
-	//Read all values in the placement table
+	//Read all values in the placement table if parameter is null
 	@GetMapping
-	public List<Placement> getAll(@RequestParam(required=false,name="id") Long id)
+	public List<Placement> getAll()
 	{
-		if( id == null )
 		  return placementService.getAll();
-		
-		List<Placement> ls = new ArrayList<>();
-		ls.add(placementService.get(id));
-		
-		return ls;
+	}
+	
+	//Search
+	@GetMapping("/search")
+	public ResponseEntity<List<Placement>> get(
+			@RequestParam(required=false,name="id") Long id,
+			@RequestParam(required=false,name="companyname") String companyName,
+			@RequestParam(required=false,name="jobtitle")  String jobTitle,
+			@RequestParam(required=false,name="placementdate") LocalDate placementDate,
+			@RequestParam(required=false,name="studentId") Long studentId
+            )
+	{
+		return placementService.search(id,companyName,jobTitle,placementDate,studentId);
 	}
 	
 	

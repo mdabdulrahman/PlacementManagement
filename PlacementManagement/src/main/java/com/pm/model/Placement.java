@@ -17,7 +17,7 @@ public class Placement {
 	private String companyName;
 	private String jobTitle;
 	private LocalDate placementDate;
-	
+	private Long studentId;
 	
 	public Long getId() {
 		return id;
@@ -37,22 +37,19 @@ public class Placement {
 	public void setJobTitle(String jobTitle) {
 		this.jobTitle = jobTitle;
 	}
-	@Override
-	public String toString() {
-		return "{\nid=" + id + ", companyName:" + companyName + ", jobTitle:" + jobTitle + ", placementDate:"
-				+ placementDate + ", studentId:" + studentId + "\n}";
-	}
+	
 	public LocalDate getPlacementDate() {
 		return placementDate;
 	}
 	public void setPlacementDate(LocalDate placementDate) {
 		this.placementDate = placementDate;
 	}
+	
 	public Long getStudentId() {
 		return studentId;
 	}
 	public void setStudentId(Long studentId) {
 		this.studentId = studentId;
 	}
-	private Long studentId;
+	
 }
